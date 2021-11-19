@@ -333,7 +333,7 @@ async function getUserData(senderId) {
   let access_token = config.FB_PAGE_TOKEN;
   try {
     let userData = await axios.get(
-      "https://graph.facebook.com/v10.0/" + senderId,
+      "https://graph.facebook.com/v12.0/" + senderId,
       {
         params: {
           access_token,
@@ -490,7 +490,7 @@ function callSendAPI(messageData) {
   return new Promise((resolve, reject) => {
     request(
       {
-        uri: "https://graph.facebook.com/v6.0/me/messages",
+        uri: "https://graph.facebook.com/v12.0/me/messages",
         qs: {
           access_token: config.FB_PAGE_TOKEN,
         },
