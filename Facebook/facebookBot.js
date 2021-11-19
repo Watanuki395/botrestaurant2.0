@@ -11,6 +11,7 @@ const { structProtoToJson } = require("./helpers/structFunctions");
 
 // Messenger API parameters
 if (!config.FB_PAGE_TOKEN) {
+  console.log(config.FB_PAGE_TOKEN)
   throw new Error("missing FB_PAGE_TOKEN");
 }
 if (!config.FB_VERIFY_TOKEN) {
