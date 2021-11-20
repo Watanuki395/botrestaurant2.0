@@ -183,6 +183,7 @@ async function handleMessage(message, sender) {
     case "text": // text
       for (const text of message.text.text) {
         if (text !== "") {
+          await sendTypingOn(senderId);
           await sendTextMessage(sender, text);
         }
       }
