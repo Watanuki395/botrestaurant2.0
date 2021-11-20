@@ -4,6 +4,7 @@ const router = express.Router();
 const request = require("request");
 const uuid = require("uuid");
 const axios = require("axios");
+const mongoose = require('mongoose');
 //files
 const config = require("../config");
 const dialogflow = require("../dialogflow");
@@ -109,7 +110,7 @@ async function receivedMessage(event) {
     handleQuickReply(senderId, quickReply, messageId);
     return;
   }
-  saveUserData(senderId);
+  //saveUserData(senderId);
 
   if (messageText) {
     //send message to dialogflow
@@ -120,21 +121,21 @@ async function receivedMessage(event) {
   }
 }
 
-async function saveUserData(facebookId) {
-  let isRegistered = await findOne({ facebookId });
-  if (isRegistered) return;
-  let userData = await getUserData(facebookId);
-  let chatbotUser = new ChatbotUser({
-    firstName: userData.first_name,
-    lastName: userData.last_name,
-    facebookId,
-    profilePic: userData.profile_pic,
-  });
-  chatbotUser.save((err, res) => {
-    if (err) return console.log(err);
-    console.log("Se creo un usuario:", res);
-  });
-}
+// async function saveUserData(facebookId) {
+//   let isRegistered = await findOne({ facebookId });
+//   if (isRegistered) return;
+//   let userData = await getUserData(facebookId);
+//   let chatbotUser = new ChatbotUser({
+//     firstName: userData.first_name,
+//     lastName: userData.last_name,
+//     facebookId,
+//     profilePic: userData.profile_pic,
+//   });
+//   chatbotUser.save((err, res) => {
+//     if (err) return console.log(err);
+//     console.log("Se creo un usuario:", res);
+//   });
+// }
 
 function handleMessageAttachments(messageAttachments, senderId) {
   //for now just reply
