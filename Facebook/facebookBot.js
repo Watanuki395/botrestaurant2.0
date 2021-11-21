@@ -115,6 +115,7 @@ async function receivedMessage(event) {
   if (messageText) {
     //send message to dialogflow
     console.log("MENSAJE DEL USUARIO: ", messageText);
+    await sendTypingOn(senderId);
     await sendToDialogFlow(senderId, messageText);
   } else if (messageAttachments) {
     handleMessageAttachments(messageAttachments, senderId);
@@ -139,6 +140,7 @@ async function receivedMessage(event) {
 
 function handleMessageAttachments(messageAttachments, senderId) {
   //for now just reply
+  sendTypingOn(senderId);
   sendTextMessage(senderId, "Archivo adjunto recibido... gracias! .");
 }
 
@@ -161,6 +163,7 @@ async function handleQuickReply(senderId, quickReply, messageId) {
   );
   this.elements = a;
   // send payload to api.ai
+  sendTypingOn(senderId);
   sendToDialogFlow(senderId, quickReplyPayload);
 }
 
@@ -169,21 +172,23 @@ async function handleDialogFlowAction(
   action,
   messages,
   contexts,
-  parameters
+  parameters,
+  senderId
 ) {
   switch (action) {
     default:
       //unhandled action, just send back the text
-      handleMessages(messages, sender);
+      sendTypingOn(senderId);
+      handleMessages(messages, sender, senderId);
   }
 }
 
-async function handleMessage(message, sender) {
+async function handleMessage(message, sender, senderId) {
   switch (message.message) {
     case "text": // text
       for (const text of message.text.text) {
         if (text !== "") {
-          await sendTypingOn(senderId);
+          sendTypingOn(senderId);
           await sendTextMessage(sender, text);
         }
       }
