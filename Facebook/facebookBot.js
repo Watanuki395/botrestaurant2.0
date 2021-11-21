@@ -203,9 +203,11 @@ async function handleMessage(message, sender, senderId) {
         };
         replies.push(reply);
       });
+      await sendTypingOn(senderId);
       await sendQuickReply(sender, message.quickReplies.title, replies);
       break;
     case "image": // image
+      await sendTypingOn(senderId);
       await sendImageMessage(sender, message.image.imageUri);
       break;
     case "payload":
@@ -216,6 +218,7 @@ async function handleMessage(message, sender, senderId) {
         },
         message: desestructPayload.facebook,
       };
+      await sendTypingOn(senderId);
       await callSendAPI(messageData);
       break;
     default:
@@ -258,6 +261,7 @@ async function handleCardMessages(messages, sender) {
     };
     elements.push(element);
   }
+  await sendTypingOn(senderId);
   await sendGenericMessage(sender, elements);
 }
 
@@ -274,19 +278,24 @@ async function handleMessages(messages, sender) {
               i += 1;
             } else j = 9999;
           }
+          await sendTypingOn(senderId);
           await handleCardMessages(cards, sender);
           cards = [];
           break;
         case "text":
+          await sendTypingOn(senderId);
           await handleMessage(messages[i], sender);
           break;
         case "image":
+          await sendTypingOn(senderId);
           await handleMessage(messages[i], sender);
           break;
         case "quickReplies":
+          await sendTypingOn(senderId);
           await handleMessage(messages[i], sender);
           break;
         case "payload":
+          await sendTypingOn(senderId);
           await handleMessage(messages[i], sender);
           break;
         default:
