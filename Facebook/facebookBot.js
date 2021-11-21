@@ -383,6 +383,7 @@ async function sendTextMessage(recipientId, text) {
       text: text,
     },
   };
+  await sendTypingOn(recipientId)
   await callSendAPI(messageData);
 }
 
@@ -404,6 +405,7 @@ async function sendImageMessage(recipientId, imageUrl) {
       },
     },
   };
+  await sendTypingOn(recipientId)
   await callSendAPI(messageData);
 }
 
@@ -427,6 +429,7 @@ async function sendButtonMessage(recipientId, text, buttons) {
       },
     },
   };
+  await sendTypingOn(recipientId)
   await callSendAPI(messageData);
 }
 
@@ -445,7 +448,7 @@ async function sendGenericMessage(recipientId, elements) {
       },
     },
   };
-
+  await sendTypingOn(recipientId)
   await callSendAPI(messageData);
 }
 
@@ -507,7 +510,7 @@ function callSendAPI(messageData) {
   return new Promise((resolve, reject) => {
     request(
       {
-        uri: "https://graph.facebook.com/v12.0/me/messages",
+        uri: "https://graph.facebook.com/v6.0/me/messages",
         qs: {
           access_token: config.FB_PAGE_TOKEN,
         },
