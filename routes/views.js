@@ -10,6 +10,17 @@ router.get("/breakfast", async (req, res) => {
     return res.render('breakfast');
 });
 
+router.get("/lunch", async (req, res) => {
+    return res.render('lunch');
+});
+
+router.get("/diner", async (req, res) => {
+    return res.render('diner');
+});
+
+router.get("/drinks", async (req, res) => {
+    return res.render('drinks');
+});
 
 router.post("/set-info", async (req, res) => {
 
