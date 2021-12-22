@@ -1,14 +1,14 @@
 const express = require("express");
-const bodyParser = require("body-parser");
+const app = express();
 const {engine} = require("express-handlebars");
 const cors = require('cors');
+const bodyParser = require("body-parser");
 
-const app = express();
 require('dotenv').config({ path: '.env' })
-
 const port = process.env.PORT || 3000;
 
-
+app.use(cors());
+app.use(express.static(__dirname + '/public'));
 
 app.engine('.hbs', engine({ extname: '.hbs', defaultLayout: "main"}));
 app.set('view engine', '.hbs');
@@ -35,10 +35,10 @@ app.get("/", (req, res) => {
 });
 
 app.use("/views", require("./routes/views"));
+app.use("/api/auth/", require("./routes/auth"));
+app.use("/api/user/", require("./routes/users"));
 
 app.listen(port, () => {
   console.log(`Escuchando peticiones en el puerto ${port}`);
 });
 
-app.use(cors());
-app.use(express.static(__dirname+'/public'));
