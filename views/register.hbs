@@ -2,25 +2,46 @@
 <section class="container-fluid bg">
     <section class="row justify-content-center">
         <section class="col-12 col-sm-6 col-md-3">
-        <form class="form-container">
+        <form class="form-container" action="#doSomething">
 
                 <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Correo Electronico</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                <div id="emailHelp" class="form-text">Nunca compartiremos tu correo con nadie más.</div>
+                    <label for="exampleInputEmail1" class="form-label">Nombre completo</label>
+                    <input type="text" class="form-control" id="InputName" required>
+                    <div id="NameHelp" class="form-text">Nombre y Apellidos</div>
                 </div>
+
                 <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
+                    <label for="exampleInputEmail1" class="form-label">Nombre del negocio</label>
+                    <input type="text" class="form-control" id="InputBusinessName">
+                    <div id="BusinessNameHelp" class="form-text">Confirmaremos que seas el dueño del negocio.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Correo Electronico</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">Nunca compartiremos tu correo con nadie más.</div>
+                </div>
+
+                <div class="row">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Confirmar Contraseña</label>
+                        <input type="password" class="form-control" >
+                    </div>
+                    <div id="emailHelp" class="form-text">La contraseña debe detener al menos 8 caracteres, mayusculas, minusculas y algun caracter especia</div>
                 </div>
                 
+                
                 <div class="d-grid gap-2 py-3">
-                <button class="btn btn-primary" type="button">Registrarme</button>
+                    <button class="btn btn-primary" type="summit">Registrarme</button>
                 </div>
                 <div>
-                <p id="forgotPass" class="form-text">No tengo una cuenta, 
-                    <a href="register">Registrarme</a>
-                </p>
+                    <p id="forgotPass" class="form-text">Ya tengo una cuenta, 
+                        <a href="login">Iniciar sesion</a>
+                    </p>
                 </div>
                 
 

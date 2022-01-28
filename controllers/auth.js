@@ -13,32 +13,34 @@ const loginCtrl = async (req, res) => {
             email: email
         } })
 
-        if (!user) {
-            res.status(404)
-            res.send({ error: 'User not found' })
-        }
+        if (user) {
+            
+            const checkPassword = await compare(password, user.password) //Contraseña!
 
-        const checkPassword = await compare(password, user.password) //Contraseña!
+            //JWT 👉
+            const tokenSession = await tokenSign(user) //2d2d2d2d2d2d2
 
-        //JWT 👉
-        const tokenSession = await tokenSign(user) //2d2d2d2d2d2d2
+            if (checkPassword) { //Contraseña es correcta!
+                res.send({
+                    user,
+                    tokenSession
+                })
+                return
+            }
 
-        if (checkPassword) { //Contraseña es correcta!
-            res.send({
-                user,
-                tokenSession
+            if (!checkPassword) {
+                //res.status(409)
+                res.send({
+                    error: 'Constraseña Invalida'
+                })
+                return
+            }
+        }else{
+            //res.status(404)
+            res.send({ 
+                error: 'Usuario y/o contraseña no validos' 
             })
-            return
         }
-
-        if (!checkPassword) {
-            res.status(409)
-            res.send({
-                error: 'Constraseña Invalida'
-            })
-            return
-        }
-
     } catch (e) {
         httpError(res, e)
     }
@@ -83,7 +85,28 @@ const registerCtrl = async (req, res) => {
     }
 }
 
+const forgotpassCtrl = async(req, res) => {
+    try {
+        const { email } = req.body
+
+        const user = await db.User.findOne({ where: {
+            email: email
+        } })
+
+        if (user) {
+            res.send({ 
+                msg: 'Enviamos un correo de confirmación' 
+            })
+        }else{
+            //res.status(404)
+            res.send({ 
+                error: 'No existe un usuario registrado con este correo electronico' 
+            })
+        }
+    } catch (e) {
+        httpError(res, e)
+    }
+}
 
 
-
-module.exports = { loginCtrl, registerCtrl, logoutCtrl }
+module.exports = { loginCtrl, registerCtrl, logoutCtrl, forgotpassCtrl}

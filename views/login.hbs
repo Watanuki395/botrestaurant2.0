@@ -1,24 +1,38 @@
 
+
+{{#if message}}
+  <script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '{{message}}',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
+  </script>
+  
+{{/if}}
+
+
 <section class="container-fluid bg">
   <section class="row justify-content-center">
     <section class="col-12 col-sm-6 col-md-3">
-      <form class="form-container">
+      <form class="form-container" method="POST" action="/api/auth/login">
 
             <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Correo Electronico</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <label for="InputEmail1" class="form-label">Correo Electronico</label>
+              <input type="email" class="form-control" id="email" name="email" required>
               <div id="emailHelp" class="form-text">Nunca compartiremos tu correo con nadie más.</div>
             </div>
             <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="exampleInputPassword1">
+              <label for="InputPassword1" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <a id="forgotPass" class="form-text" href="forgotpass">Olvide mi contraseña</a>
             <div class="d-grid gap-2 py-3">
-              <button class="btn btn-primary" type="button">Entrar</button>
+              <button class="btn btn-primary" type="sumit">Entrar</button>
             </div>
             <div>
-              <p id="forgotPass" class="form-text">No tengo una cuenta, 
+              <p id="register" class="form-text">No tengo una cuenta, 
                 <a href="register">Registrarme</a>
               </p>
             </div>
@@ -28,3 +42,5 @@
     </section>
   </section>
 </section>
+
+

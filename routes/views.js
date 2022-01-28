@@ -4,12 +4,14 @@ const express = require("express");
 const router = express.Router();
 
 
+
 /*
 AUTH
 */ 
 router.get("/login", async (req, res) => {
     return res.render('login',
-    {style: 'login.css'
+    {style: 'login.css',
+    message: req.body.message
     });
 });
 
@@ -24,6 +26,16 @@ router.get("/register", async (req, res) => {
     {style: 'register.scss'
     });
 });
+
+/*
+USER
+*/ 
+router.get("/dashboard/:id", async (req, res) => {
+    return res.render('dashboard',
+    {style: 'login.css'
+    });
+});
+
 
 /*
 Menu
@@ -49,7 +61,7 @@ router.get("/drinks", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-    return res.json({hola: 'por favor inicia secion'})
+    return res.redirect('/views/login')
 });
 
 module.exports = router;
