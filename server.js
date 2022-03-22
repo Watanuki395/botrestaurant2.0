@@ -37,6 +37,7 @@ app.get("/", (req, res) => {
 app.use("/views", require("./routes/views"));
 app.use("/api/auth/", require("./routes/auth"));
 app.use("/api/user/", require("./routes/users"));
+app.use("/api/product/", require("./routes/products"));
 
 app.listen(port, () => {
   console.log(`Escuchando peticiones en el puerto ${port}`);
