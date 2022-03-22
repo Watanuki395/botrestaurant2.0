@@ -133,7 +133,7 @@ const resetPasswordCtrl = async(req, res) => {
             res.send({msg: 'link valido'})
             return
         }else{
-            res.status(404)
+            //res.status(404)
             res.send({ 
                 msg:'Error al validar el link',
                 error: 'El link no es valido o el tiempo para resetear tu contraseña a expirado' 
@@ -169,7 +169,7 @@ const createNewPassCtrl = async(req, res) => {
             res.json({result})
         })
         }else{
-            res.status(404)
+            //res.status(404)
             res.send({ 
                 error: 'No se pudo actualizar la contraseña' 
             })
