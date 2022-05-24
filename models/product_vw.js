@@ -27,8 +27,9 @@ module.exports = (sequelize, DataTypes) => {
     producto: DataTypes.STRING,
     descripcion: DataTypes.STRING,
     categoria: DataTypes.STRING,
-    uuid: DataTypes.UUID
-    }, {
+    price_prd: DataTypes.INTEGER,
+    isOnMenu: DataTypes.BOOLEAN,
+    uuid: DataTypes.UUID}, {
         sequelize,
         modelName: 'ProductVw',
         tableName: 'product_vw',

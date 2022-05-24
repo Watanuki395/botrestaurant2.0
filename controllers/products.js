@@ -47,7 +47,7 @@ const getProductsByCategory = async (req, res) => {
 
 const createProduct = async (req, res) => {
     try {
-        const { name_prd, description_prd, id_cat, id_user,imgURL_prd } = req.body ? req.body : null;
+        const { name_prd, description_prd, id_cat, id_user,imgURL_prd, price_prd, isOnMenu } = req.body ? req.body : null;
 
         const unique = await db.Product.findOne({
             where: {name_prd}
@@ -58,7 +58,9 @@ const createProduct = async (req, res) => {
                 description_prd, 
                 id_cat, 
                 id_user,
-                imgURL_prd
+                imgURL_prd,
+                price_prd,
+                isOnMenu
             }).then(function(data){
                 let msg = data ? data : {mensaje: 'Error al insertar el producto, intente nuevamente'}
                 return res.json(msg);
@@ -76,15 +78,17 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
     try {
-        const { name_prd, description_prd, id_cat, id_user, id_prd, imgURL_prd } = req.body ? req.body : null;
+        const { producto, descripcion, price_prd, isOnMenu, id_cat, id_user, id_prd, imgURL_prd } = req.body ? req.body : null;
 
         const unique = await db.Product.findOne({
             where: {id_prd, id_user}
         })
         if(unique){
             await db.Product.update({
-                name_prd, 
-                description_prd, 
+                name_prd : producto, 
+                description_prd : descripcion, 
+                price_prd,
+                isOnMenu,
                 id_cat,
                 imgURL_prd},{
                 where: {

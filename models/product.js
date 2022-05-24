@@ -46,6 +46,16 @@ module.exports = (sequelize, DataTypes) => {
     imgURL_prd: {
         type: DataTypes.STRING,
         allowNull: true
+    },
+    price_prd: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+    },
+    isOnMenu: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: true
     }
     }, {
         sequelize,
