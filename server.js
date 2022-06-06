@@ -1,8 +1,10 @@
 const express = require("express");
-const app = express();
+const cookieParser = require("cookie-parser");
 const {engine} = require("express-handlebars");
 const cors = require('cors');
 const bodyParser = require("body-parser");
+const app = express();
+app.use(cookieParser());
 
 require('dotenv').config({ path: '.env' })
 const port = process.env.PORT || 8081;
@@ -36,6 +38,7 @@ app.get("/", (req, res) => {
 
 app.use("/views", require("./routes/views"));
 app.use("/api/auth/", require("./routes/auth"));
+
 app.use("/api/user/", require("./routes/users"));
 app.use("/api/product/", require("./routes/products"));
 

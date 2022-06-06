@@ -19,7 +19,7 @@ const {
 
 
 
-router.get('/product', getProduct)
+router.get('/product',checkAuth, getProduct)
 
 router.get('/productsbycategory', getProductsByCategory)
 

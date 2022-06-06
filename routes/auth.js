@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { loginCtrl, registerCtrl, logoutCtrl, forgotpassCtrl, resetPasswordCtrl, createNewPassCtrl} = require('../controllers/auth')
+const { loginCtrl, registerCtrl, logoutCtrl, forgotpassCtrl, resetPasswordCtrl, createNewPassCtrl, handleRefreshTokenCtrl} = require('../controllers/auth')
 
 router.get('/',(req,res)=>{
     res.json({
@@ -12,7 +12,6 @@ router.get('/',(req,res)=>{
 
 //Login !
 router.post('/login', loginCtrl)
-
 
 //Registrar un usuario
 router.post('/register', registerCtrl)
@@ -29,6 +28,8 @@ router.get('/reset-password/:uuid/:token', resetPasswordCtrl)
 // Crear nueva contraseña
 router.post('/reset-password/:uuid/:token', createNewPassCtrl)
 
+// Refrescamos el token
+router.get('/refresh-token', handleRefreshTokenCtrl);
 
 module.exports = router;
 

@@ -16,7 +16,7 @@ class User extends Model {
     }
 
     toJSON() {
-        return { ...this.get(), password:undefined}
+        return { ...this.get(), password:undefined, refreshToken: undefined}
     }
 
 };
@@ -62,6 +62,10 @@ User.init({
     },
     admin: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    refreshToken: {
+        type: DataTypes.STRING,
         defaultValue: false
     }
 },

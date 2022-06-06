@@ -4,7 +4,7 @@ var db = require("../models");
 
 const getProduct = async (req, res) => {
     try {
-        const {id_prd,id_user,id_cat } = req.query.id_prd ? req.query : null;
+        const { id_prd,id_user,id_cat } = req.query.id_prd ? req.query : null;
         if(id_prd && id_cat && id_user){
             const result = await db.ProductVw.findOne({
                 where: {id_prd,

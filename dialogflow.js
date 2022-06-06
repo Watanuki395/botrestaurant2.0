@@ -1,4 +1,4 @@
-const dialogflow = require("dialogflow");
+const dialogflow = require('@google-cloud/dialogflow');
 const config = require("./config");
 
 const credentials = {
