@@ -22,7 +22,12 @@ const tokenSign = async (user, secret, expTime) => { //TODO: Genera Token
 
 const verifyToken = async (token, secret) => {
     try {
-        return jwt.verify(token, secret)
+        return jwt.verify(token, secret,
+            (err, decoded) => {
+                if (err) return res.sendStatus(403); //invalid token
+                return decoded
+            }
+        );
     } catch (e) {
         return null
     }

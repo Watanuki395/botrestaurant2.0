@@ -1,15 +1,27 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const app = express();
 const {engine} = require("express-handlebars");
 const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
+const credentials = require('./middleware/credentials');
 const bodyParser = require("body-parser");
-const app = express();
+
+// Handle options credentials check - before CORS!
+// and fetch cookies credentials requirement
+app.use(credentials);
+
+app.use(cors(corsOptions));
+
 app.use(cookieParser());
 
 require('dotenv').config({ path: '.env' })
 const port = process.env.PORT || 8081;
 
-app.use(cors());
+
+
+// Cross Origin Resource Sharing
+
 app.use(express.static(__dirname + '/public'));
 
 app.engine('.hbs', engine({ extname: '.hbs', defaultLayout: "main"}));

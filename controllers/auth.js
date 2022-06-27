@@ -28,12 +28,12 @@ const loginCtrl = async (req, res) => {
         const accessToken = await tokenSign(
             foundUser,
             process.env.JWT_SECRET,
-            "1h"
+            "30s"
         ); 
         const refreshToken = await tokenSign(
             foundUser,
             process.env.RF_JWT_SECRET,
-            "1d"
+            "1h"
         ); 
     // Salvamos el refreshToken
         await db.User.update({
@@ -43,7 +43,7 @@ const loginCtrl = async (req, res) => {
             where:{
                 uuid: foundUser.uuid}
         });
-        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: false, maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
         res.json({
             user: foundUser,
             accessToken,
@@ -63,6 +63,7 @@ const handleRefreshTokenCtrl = async (req, res) => {
     const cookies = req.cookies;
     if (!cookies?.jwt) return res.sendStatus(401);
     const refreshToken = cookies.jwt;
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
 
    // Is refreshToken in db?
 const foundUser = await db.User.findOne({
@@ -70,6 +71,7 @@ const foundUser = await db.User.findOne({
         refreshToken,
     },
 });
+
     if (!foundUser) return res.sendStatus(403); //Forbidden 
     // evaluate jwt 
     const payload = await verifyToken(refreshToken,  process.env.RF_JWT_SECRET)
@@ -79,10 +81,27 @@ const foundUser = await db.User.findOne({
     const accessToken = await tokenSign(
         foundUser,
         process.env.JWT_SECRET,
-        "1h"
+        "30s"
     ); 
+    const newRefreshToken = await tokenSign(
+      foundUser,
+      process.env.RF_JWT_SECRET,
+      "1h"
+  ); 
+// Salvamos el refreshToken
+  await db.User.update({
+          refreshToken : newRefreshToken
+      },
+      {
+      where:{
+          uuid: foundUser.uuid}
+  });
+  res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
 
-    res.json({ accessToken })
+    res.json({ 
+      user: foundUser,
+      accessToken
+    })
 }
 // Log Out
 const logoutCtrl = async (req, res) => {
@@ -98,7 +117,7 @@ const logoutCtrl = async (req, res) => {
         },
     });
     if (!foundUser) {
-        res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+        res.clearCookie('jwt', { httpOnly: false, sameSite: 'None', secure: false });
         return res.sendStatus(204);
     }
 
@@ -111,7 +130,7 @@ const logoutCtrl = async (req, res) => {
     where:{
         uuid: foundUser.uuid}
     })
-    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+    res.clearCookie('jwt', { httpOnly: false, sameSite: 'None', secure: false });
     res.sendStatus(204);
 
 };
