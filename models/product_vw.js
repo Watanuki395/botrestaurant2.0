@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     categoria: DataTypes.STRING,
     price_prd: DataTypes.INTEGER,
     isOnMenu: DataTypes.BOOLEAN,
+    imgURL_prd: DataTypes.STRING,
     uuid: DataTypes.UUID}, {
         sequelize,
         modelName: 'ProductVw',
