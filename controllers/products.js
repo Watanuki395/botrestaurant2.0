@@ -182,9 +182,8 @@ const createCategory = async (req, res) => {
                 return res.json(msg);
         })
         }else{
-            return res.json({
-                msg: `La categoria ${name_cat} ya existe, por favor intente agregando un producto diferente o actualizando el que ya existe.`
-            });
+            console.log(`La categoria ${name_cat} ya existe, por favor intente agregando un producto diferente o actualizando el que ya existe.`)
+            res.sendStatus(404);
         }
 
     } catch (err) {
