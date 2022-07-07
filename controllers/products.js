@@ -66,9 +66,8 @@ const createProduct = async (req, res) => {
                 return res.json(msg);
         })
         }else{
-            return res.json({
-                msg: `El producto ${name_prd} ya existe, por favor intente agregando un producto diferente o actualizando el que ya existe.`
-            });
+            console.log(`El producto ${name_prd} ya existe, por favor intente agregando un producto diferente o actualizando el que ya existe.`)
+            res.sendStatus(404);
         }
 
     } catch (err) {
@@ -101,9 +100,8 @@ const updateProduct = async (req, res) => {
                 res.json(result)
         })
         }else{
-            return res.json({
-                msg: `El producto ${name_prd} no se pudo actualizar, por favor intente más tarde`
-            });
+            console.log(`El producto ${name_prd} no se pudo actualizar, por favor intente más tarde`)
+            res.sendStatus(404);
         }
 
     } catch (err) {
@@ -124,9 +122,8 @@ const deleteProduct  = async (req, res) => {
             mensaje: `se elimino el producto ${unique.dataValues.name_prd}`
         })
     }else{
-        res.json({
-            mensaje: `no pudimos encontrar el producto`
-        })
+        console.log(`no pudimos encontrar la producto`)
+        res.sendStatus(404);
     }
 }
 
@@ -210,9 +207,8 @@ const updateCategory = async (req, res) => {
                 res.json(result)
         })
         }else{
-            return res.json({
-                msg: `La categoria ${name_cat} no se pudo actualizar, por favor intente más tarde`
-            });
+            console.log(`La categoria ${name_cat} no se pudo actualizar, por favor intente más tarde`)
+            res.sendStatus(404);
         }
 
     } catch (err) {
@@ -233,9 +229,8 @@ const deleteCategory  = async (req, res) => {
             mensaje: `se elimino la categoria ${unique.dataValues.name_cat}`
         })
     }else{
-        res.json({
-            mensaje: `no pudimos encontrar la categoria`
-        })
+        console.log(`no pudimos encontrar la categoria`)
+        res.sendStatus(404);
     }
 }
 
