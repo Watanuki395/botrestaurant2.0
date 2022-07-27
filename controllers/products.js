@@ -50,7 +50,8 @@ const createProduct = async (req, res) => {
         const { name_prd, description_prd, id_cat, id_user,imgURL_prd, price_prd, isOnMenu } = req.body ? req.body : null;
 
         const unique = await db.Product.findOne({
-            where: {name_prd}
+            where: {name_prd,
+                id_user, id_cat}
         })
         if(!unique){
             const insert = await db.Product.create({
@@ -62,16 +63,16 @@ const createProduct = async (req, res) => {
                 price_prd,
                 isOnMenu
             }).then(function(data){
-                let msg = data ? data : {mensaje: 'Error al insertar el producto, intente nuevamente'}
+                let msg = data ? data : res.sendStatus(500);
                 return res.json(msg);
+        }).catch((err)=>{
+            httpError(res, err)
         })
         }else{
-            console.log(`El producto ${name_prd} ya existe, por favor intente agregando un producto diferente o actualizando el que ya existe.`)
-            res.sendStatus(404);
+            return res.sendStatus(403);
         }
-
     } catch (err) {
-        httpError(res, err)
+        console.log(err)
     }
 }
 
@@ -82,7 +83,21 @@ const updateProduct = async (req, res) => {
         const unique = await db.Product.findOne({
             where: {id_prd, id_user}
         })
-        if(unique){
+        if(unique && unique.imgURL_prd == '' && imgURL_prd){
+            await db.Product.update({
+                imgURL_prd},{
+                where: {
+                    id_prd, 
+                    id_user
+                },
+                returning: true
+                }).then(function(data){
+                let result = data ? data[1][0] : {msg: 'ERROR'}
+                res.json(result)
+        }).catch((err)=>{
+            httpError(res, err)
+        })
+        }else if(unique){
             await db.Product.update({
                 name_prd : producto, 
                 description_prd : descripcion, 
@@ -98,12 +113,13 @@ const updateProduct = async (req, res) => {
                 }).then(function(data){
                 let result = data ? {msg: 'El producto se actualizo correctamente'} : {msg: 'Error al actualizar el producto, intente nuevamente'}
                 res.json(result)
+        }).catch((err)=>{
+            httpError(res, err)
         })
         }else{
             console.log(`El producto ${name_prd} no se pudo actualizar, por favor intente más tarde`)
             res.sendStatus(404);
         }
-
     } catch (err) {
         httpError(res, err)
     }
